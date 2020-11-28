@@ -8,6 +8,8 @@
   <div class="form-group">
     <label for="username">Username:</label>
     <input type="text" class="form-control" id="username" placeholder="Enter username" name="username" required>
+    <input type="button" class="btn btn-primary" id="temp" value="증복확인">
+    <div class="text-center small mt-2" id="checkMsg" style="color: red"></div>
     <div class="valid-feedback">Valid.</div>
     <div class="invalid-feedback">Please fill out this field.</div>
   </div>
