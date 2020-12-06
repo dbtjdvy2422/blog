@@ -4,7 +4,7 @@
 <%@include file= "../layout/header.jsp"  %>
 
 
-<form action="/action_page.php" class="was-validated">
+<form class="was-validated">
   <div class="form-group">
     <label for="username">Username:</label>
     <input type="text" class="form-control" id="username" placeholder="Enter username" name="username" required>
@@ -32,7 +32,7 @@
 
 <button id="btn_save" class="btn btn-primary">Submit</button>
 
-<script src="/blog/js/user.js"></script>
+<script src="/js/user.js"></script>
 
 
 

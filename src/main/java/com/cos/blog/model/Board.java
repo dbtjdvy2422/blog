@@ -40,7 +40,7 @@ public class Board {
 	@Lob //대용량 데이터
 	private String content; //섬머노트 라이브러리<html>태그가 섞여서 디자인 됌
 	
-	@ColumnDefault("0")
+	
 	private int count; //조회수
 	
 	@ManyToOne(fetch = FetchType.EAGER) //many = board , User = One 한명이 여러 게시물을 쓸 수 있다. //Eager : 무조건 컬럼을 가져와야 할때

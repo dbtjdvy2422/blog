@@ -3,7 +3,7 @@
 <%@include file= "../layout/header.jsp"  %>
 
 
-<form class="was-validated">
+<form action="/auth/loginProc" method="post" class="was-validated">
   <div class="form-group">
     <label for="username">Username:</label>
     <input type="text" class="form-control" id="username" placeholder="Enter username" name="username" required>
@@ -19,12 +19,16 @@
     <div class="invalid-feedback">Please fill out this field.</div>
   </div>
   
+  <div class="form-group form-check">
+  <label class="form-check-label">
+  <input name="remember" class="form-check-input" type="checkbox">Remember me
+  </label>
+  </div>
+  
+  <button id="btn_login" class="btn btn-primary">Submit</button>
 
 </form>
 
-<button id="btn_login" class="btn btn-primary">Submit</button>
-
-<script src="/blog/js/user.js"></script>
 
 
 
