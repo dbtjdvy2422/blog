@@ -2,7 +2,11 @@ package com.cos.blog.service;
 
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 //스프링이 컴포넌트 스캔을 통해서 bean 에 들록을 해줌 .IOC를 해준다.
@@ -34,4 +38,8 @@ public class BoardService {
 	 * userRepository.findByUsernameAndPassword(user.getUsername(),
 	 * user.getPassword()); }
 	 */
+	public Page<Board> 글목록(Pageable pageable){
+		return boardRepository.findAll(pageable);
+	}
+	
 }
