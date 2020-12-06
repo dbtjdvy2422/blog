@@ -27,7 +27,7 @@ public class UserApiController {
 		userService.회원가입(user);
 		return new ResponseDto<Integer>(HttpStatus.OK.value(),1);//자바오브젝틀를 json으로 변환해서 리턴 =>jackson
 	}
-	
+	  
 	/*
 	@PostMapping("/api/user/login")
 	public ResponseDto<Integer> login(@RequestBody User user,HttpSession session) {
