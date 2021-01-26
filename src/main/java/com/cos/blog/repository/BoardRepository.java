@@ -20,8 +20,9 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
 	//select * from user where username =?1 and password = ?2;
 	//User findByUsernameAndPassword(String username, String password);
 	
-	//@Query(value="SELECT * FROM user WHERE username =?1 AND password =?2", nativeQuery =ture)
+	//@Query(value="SELECT * FROM user WHERE username =?1 AND password =?2", nativeQuery =true)
 	//User login(String username,String password);
+	
 	
 	
 }

@@ -6,18 +6,19 @@
 
 <div class="container">
 
-<form method="post" class="was-validated">
+<form  class="was-validated">
+	<input type="hidden" id="id" value="${board.id}"/>
   <div class="form-group">
-    <input type="text" class="form-control" id="title" placeholder="Enter title">
+    <input type="text" value="${board.title}" class="form-control" id="title" placeholder="Enter title">
 
   </div>
  <div class="form-group">
-  <textarea class="form-control summernote" rows="5" id="content"></textarea>
+  <textarea class="form-control summernote" rows="5" id="content">${board.content}</textarea>
 </div>
 
 </form>
 
-  <button id="btn_save" class="btn btn-primary">글쓰기 완료</button>
+  <button id="btn_update" class="btn btn-primary">글수정 완료</button>
 
   <br>
   </div>

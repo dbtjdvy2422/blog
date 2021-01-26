@@ -7,8 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,7 +39,20 @@ public class BoardApiController {
 		return new ResponseDto<Integer>(HttpStatus.OK.value(),1);//자바오브젝틀를 json으로 변환해서 리턴 =>jackson
 	}
 	
-	/*
+	@DeleteMapping("/api/board/{id}")
+	public ResponseDto<Integer> deleteById(@PathVariable int id){
+		boardService.글삭제하기(id);
+		return new ResponseDto<Integer>(HttpStatus.OK.value(),1);//자바오브젝틀를 json으로 변환해서 리턴 =>jackson
+ 
+	}
+	
+	@PutMapping("/api/board/{id}")
+	public ResponseDto<Integer> update(@PathVariable int id, @RequestBody Board board){
+		boardService.글수정하기(id,board);
+		return new ResponseDto<Integer>(HttpStatus.OK.value(),1);//자바오브젝틀를 json으로 변환해서 리턴 =>jackson
+
+	}
+		/*
 	@PostMapping("/api/user/login")
 	public ResponseDto<Integer> login(@RequestBody User user,HttpSession session) {
 		System.out.println("UserApiController :login 호줄됨");
@@ -48,4 +64,9 @@ public class BoardApiController {
 		return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
 	}
 	*/
+	
+
+	
 }
+
+
