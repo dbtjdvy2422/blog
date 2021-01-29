@@ -1,6 +1,8 @@
 package com.cos.blog.controller;
 
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -9,6 +11,10 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
@@ -29,6 +35,7 @@ import com.cos.blog.model.User;
 import com.cos.blog.repository.BoardRepository;
 import com.cos.blog.repository.UserRepository;
 import com.cos.blog.service.BoardService;
+import com.cos.blog.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -47,6 +54,13 @@ public class UserController {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private AuthenticationManager authenticationManager;
+	
 	
 	@PostMapping("/dumm/join")
 	public String join(User user) { //key=value(약속된 규칙)
@@ -89,6 +103,11 @@ public class UserController {
 	@GetMapping("/board/saveForm")
 	public String saveForm() {
 	return "board/saveForm";
+	}
+	
+	@GetMapping("/user/updateForm")
+	public String updateForm() {
+	return "user/updateForm";
 	}
 	
 	@GetMapping("auth/kakao/callback")
@@ -167,7 +186,34 @@ public class UserController {
 			e.printStackTrace();
 		}
 		
-		return response2.getBody(); 
+		System.out.println("카카오 아이디(번호): "+kakaoProfile.getId());
+		System.out.println("카카오 이메일: "+kakaoProfile.getKakao_account().getEmail());
+		
+		System.out.println("블로그 유저네임: "+kakaoProfile.getKakao_account().getEmail()+"_"+kakaoProfile.getId());
+		System.out.println("블로그 서버네임: "+kakaoProfile.getKakao_account().getEmail());
+		UUID garbagePassword = UUID.randomUUID();
+		System.out.println("블로그 패스워드" +garbagePassword);
+		
+		User kakaoUser = User.builder()
+				.username(kakaoProfile.getKakao_account().getEmail()+"_"+kakaoProfile.getId())
+				.password(garbagePassword.toString())
+				.email(kakaoProfile.getKakao_account().getEmail())
+				.build();
+		
+		//가입자 혹은 비가입자 체크 해서 처리
+		User originUser = userService.회원찾기(kakaoUser.getUsername());
+		
+		if(originUser==null) {
+			System.out.println("기존회원입니다.");
+			userService.회원가입(kakaoUser);
+		}
+		
+		//로그인처리
+
+		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(kakaoUser.getUsername(),kakaoUser.getPassword()));
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		
+		return "redirect:/"; 
 		
 		
 	}
