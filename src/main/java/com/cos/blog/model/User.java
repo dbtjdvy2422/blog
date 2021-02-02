@@ -34,7 +34,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)//해당 프로젝트에서 연결된 DB의 넘버링 전략을 따라간다.
 	private int id; //시퀀스 ,auto_increment
 	
-	@Column(nullable = false,length =30)
+	@Column(nullable = false,length =100)
 	private String username; //아이디
 	
 	@Column(nullable = false, length =100) //123456 =>해쉬( 비밀번호 암호화)
@@ -47,6 +47,8 @@ public class User {
 	//DB는 RoleType이라는게 업다. 그래서 @Enumerated(EnumType.STRING)으로 스트링값이라는걸 알려준다.
 	@Enumerated(EnumType.STRING)
 	private RoleType role; //enum을 쓰는게 좋다.//admin, user( enum을 쓰면 설정헤준  두 가지만 넣을 수 있다) 
+	
+	private String oauth; //kakao 로그인 하는 사람 
 	
 	@CreationTimestamp //시간 자동 입력
 	private Timestamp createDate;

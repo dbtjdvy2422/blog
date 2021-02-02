@@ -4,6 +4,7 @@ package com.cos.blog.controller;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -47,6 +48,9 @@ import javassist.compiler.ast.Variable;
 @Controller
 public class UserController {
  
+	@Value("${cos.key}")
+	private String cosKey;
+	
 	@Autowired
 	private BoardService boardService;
 	
@@ -111,7 +115,7 @@ public class UserController {
 	}
 	
 	@GetMapping("auth/kakao/callback")
-	public @ResponseBody String kakaoCallback(String code) { //data를 리턴해주는 컨트롤러 함수
+	public String kakaoCallback(String code) { //data를 리턴해주는 컨트롤러 함수
 		//Post방식으로 key=value 데이터를 요청(카카오쪽으로)
 		//Retrofit2
 		//OkHttp
@@ -192,25 +196,26 @@ public class UserController {
 		System.out.println("블로그 유저네임: "+kakaoProfile.getKakao_account().getEmail()+"_"+kakaoProfile.getId());
 		System.out.println("블로그 서버네임: "+kakaoProfile.getKakao_account().getEmail());
 		UUID garbagePassword = UUID.randomUUID();
-		System.out.println("블로그 패스워드" +garbagePassword);
+		System.out.println("블로그 패스워드: " +cosKey);
 		
 		User kakaoUser = User.builder()
 				.username(kakaoProfile.getKakao_account().getEmail()+"_"+kakaoProfile.getId())
-				.password(garbagePassword.toString())
+				.password(cosKey)
 				.email(kakaoProfile.getKakao_account().getEmail())
+				.oauth("kakao")
 				.build();
 		
 		//가입자 혹은 비가입자 체크 해서 처리
 		User originUser = userService.회원찾기(kakaoUser.getUsername());
 		
-		if(originUser==null) {
-			System.out.println("기존회원입니다.");
+		if(originUser.getUsername()==null) {
+			System.out.println("기존 회원이 아니기에 회원가입을 진행합니다.");
 			userService.회원가입(kakaoUser);
 		}
 		
 		//로그인처리
 
-		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(kakaoUser.getUsername(),kakaoUser.getPassword()));
+		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(kakaoUser.getUsername(),cosKey));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		
 		return "redirect:/"; 
@@ -223,6 +228,6 @@ public class UserController {
 		model.addAttribute("board",boardService.상세보기(id));
 		return "board/updateForm";
 		
-	}
+	} 
 	
 }
