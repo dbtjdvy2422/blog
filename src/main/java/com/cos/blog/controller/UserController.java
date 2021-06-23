@@ -1,6 +1,8 @@
 package com.cos.blog.controller;
 
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -79,6 +82,7 @@ public class UserController {
 		   
 		return "회원가입이 완료되었습니다.";
 	}
+	@CrossOrigin
 	@GetMapping({"","/"})
 	public String main(Model model, @PageableDefault(size=1, sort="id",direction =Sort.Direction.DESC) Pageable pageable) {
 	model.addAttribute("boards",boardService.글목록(pageable));
@@ -229,5 +233,14 @@ public class UserController {
 		return "board/updateForm";
 		
 	} 
+	
+	@GetMapping("/api/hello")
+	public HashMap<String, String> hello(){
+		HashMap<String, String> result = new HashMap<String, String>();
+        result.put("message", "안녕하세요");
+
+        return result;
+	}
+	
 	
 }

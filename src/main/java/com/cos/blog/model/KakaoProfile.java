@@ -1,5 +1,7 @@
 package com.cos.blog.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Data;
 
 @Data
@@ -27,6 +29,7 @@ public class KakaoProfile {
   public String email;
 
   @Data
+  @JsonIgnoreProperties(ignoreUnknown = true)
   public class Profile {
    public String nickname;
    public String thumbnail_image_url;
