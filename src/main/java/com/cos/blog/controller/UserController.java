@@ -234,13 +234,7 @@ public class UserController {
 		
 	} 
 	
-	@GetMapping("/api/hello")
-	public HashMap<String, String> hello(){
-		HashMap<String, String> result = new HashMap<String, String>();
-        result.put("message", "안녕하세요");
 
-        return result;
-	}
 	
 	
 }
