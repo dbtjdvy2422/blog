@@ -13,12 +13,18 @@ spring:
       prefix: /WEB-INF/views/
       suffix: .jsp
       
+      
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/blog?serverTimezone=Asia/Seoul
     username: cos
     password: cos1234
     
+  servlet: 
+    multipart:
+      enabled: true
+      max-file-size: 2MB
+      
   jpa:
     open-in-view: true
     hibernate:
@@ -42,4 +48,8 @@ http:
         
 cos:
   key: cos1234
+  
+file:
+  path: C:\Users\user\upload\
+  
         

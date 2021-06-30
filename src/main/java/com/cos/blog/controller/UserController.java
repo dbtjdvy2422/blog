@@ -3,6 +3,7 @@ package com.cos.blog.controller;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,80 +14,65 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.CrossOrigin;
+
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.cos.blog.config.auth.PrincipalDetail;
+import com.cos.blog.dto.CMRespDto;
+import com.cos.blog.dto.SubscribeDto;
+import com.cos.blog.dto.UserProfileDto;
 import com.cos.blog.model.KakaoProfile;
 import com.cos.blog.model.OAuthToken;
-import com.cos.blog.model.RoleType;
+
 import com.cos.blog.model.User;
-import com.cos.blog.repository.BoardRepository;
-import com.cos.blog.repository.UserRepository;
+
 import com.cos.blog.service.BoardService;
+import com.cos.blog.service.SubscribeService;
 import com.cos.blog.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import javassist.compiler.ast.Variable;
+import lombok.RequiredArgsConstructor;
 
 //인증이 안된 사용자들이 출입할 수 있는 경로를 /auth/** 허용
 //그냥
+@RequiredArgsConstructor
 @Controller
 public class UserController {
  
 	@Value("${cos.key}")
 	private String cosKey;
 	
-	@Autowired
-	private BoardService boardService;
+	private final BoardService boardService;
+	private final UserService userService;
+	private final AuthenticationManager authenticationManager;
+	private final SubscribeService subscribeService;
 	
-	private PrincipalDetail principal;
-	
-	@Autowired
-	private UserRepository userRepository;
-	
-	@Autowired
-	private UserService userService;
-
-	@Autowired
-	private AuthenticationManager authenticationManager;
-	
-	
-	@PostMapping("/dumm/join")
-	public String join(User user) { //key=value(약속된 규칙)
-		System.out.println("id :" + user.getId());
-		System.out.println("username :" + user.getUsername());
-		System.out.println("password :" + user.getPassword());
-		System.out.println("email :" + user.getEmail());
-		System.out.println("createDate :" + user.getCreateDate());
-		
-		user.setRole(RoleType.USER);
-		userRepository.save(user);
-		   
-		return "회원가입이 완료되었습니다.";
-	}
-	@CrossOrigin
-	@GetMapping({"","/"})
+	@GetMapping("/board")
 	public String main(Model model, @PageableDefault(size=1, sort="id",direction =Sort.Direction.DESC) Pageable pageable) {
 	model.addAttribute("boards",boardService.글목록(pageable));
-	return "main";
+	return "board";
+	}
+	
+	@GetMapping("/user/{pageUserId}")
+	public String profile(@PathVariable int pageUserId, Model model, @AuthenticationPrincipal PrincipalDetail principalDetail) {
+		UserProfileDto dto = userService.회원프로필(pageUserId, principalDetail.getUser().getId());
+		model.addAttribute("dto", dto);
+		return "user/profile";
 	}
 	
 	@GetMapping("board/{id}")
@@ -116,6 +102,20 @@ public class UserController {
 	@GetMapping("/user/updateForm")
 	public String updateForm() {
 	return "user/updateForm";
+	}
+	
+	@GetMapping("/user/{id}/update")
+	public String updateForm(@PathVariable int id, @AuthenticationPrincipal PrincipalDetail principalDetail) {
+	
+		return "user/update";
+	}
+	
+	@GetMapping("/api/user/{pageUserId}/subscribe")
+	public ResponseEntity<?> subscribeList(@PathVariable int pageUserId, @AuthenticationPrincipal PrincipalDetail principalDetail){
+		
+		List<SubscribeDto> subscribeDto = subscribeService.구독리스트(principalDetail.getUser().getId(), pageUserId);
+		
+		return new ResponseEntity<>(new CMRespDto<>(1, "구독자 정보 리스트 가져오기 성공", subscribeDto), HttpStatus.OK);
 	}
 	
 	@GetMapping("auth/kakao/callback")

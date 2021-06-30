@@ -1,18 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
- <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"></head>
-<body>
-<div class="jumbotron text-center" style="margin-bottom:0">
-  <p>Created by Cos</p>
-  <p>010-2222-7777</p>
-  <p>서울</p>
-</div>
+<footer>
+	<div class="container">
+		<ul>
+			<li><a href="#a">소개</a></li>
+			<li><a href="#a">블로그</a></li>
+			<li><a href="#a">채용 정보</a></li>
+			<li><a href="#a">도움말</a></li>
+			<li><a href="#a">API</a></li>
+			<li><a href="#a">개인정보처리방침</a></li>
+			<li><a href="#a">약관</a></li>
+			<li><a href="#a">인기 계정</a></li>
+			<li><a href="#a">해시태그</a></li>
+			<li><a href="#a">위치</a></li>
+		</ul>
+		<div class="copy">
+			<p>© 2020 Photogram from There Programing</p>
+		</div>
+	</div>
+</footer>
 
 </body>
 </html>

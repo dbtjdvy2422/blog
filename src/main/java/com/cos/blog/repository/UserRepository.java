@@ -17,6 +17,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	Optional<User> findByUsername(String username);
 	
 	
+	
+	
 	//JPA Namining 쿼리 
 	//select * from user where username =?1 and password = ?2;
 	//User findByUsernameAndPassword(String username, String password);

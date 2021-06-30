@@ -1,39 +1,55 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@include file= "../layout/header.jsp"  %>
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>phtogram</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+</head>
 
-<form action="/auth/loginProc" method="post" class="was-validated">
-  <div class="form-group">
-    <label for="username">Username:</label>
-    <input type="text" class="form-control" id="username" placeholder="Enter username" name="username" required>
-    <input type="button" class="btn btn-primary" id="temp" value="증복확인">
-    <div class="text-center small mt-2" id="checkMsg" style="color: red"></div>
-    <div class="valid-feedback">Valid.</div>
-    <div class="invalid-feedback">Please fill out this field.</div>
-  </div>
-  <div class="form-group">
-    <label for="password">Password:</label>
-    <input type="password" class="form-control" id="password" placeholder="Enter password" name="password" required>
-    <div class="valid-feedback">Valid.</div>
-    <div class="invalid-feedback">Please fill out this field.</div>
-  </div>
-  
-  <div class="form-group form-check">
-  <label class="form-check-label">
-  <input name="remember" class="form-check-input" type="checkbox">Remember me
-  </label>
-  </div>
-  
-  <button id="btn_login" class="btn btn-primary">Submit</button>
-  <a href="https://kauth.kakao.com/oauth/authorize?client_id=57ea8b244103264c206819e7f856ddcc&redirect_uri=http://localhost:8000/auth/kakao/callback&response_type=code"><img height="38px" src="/image/kakao_login_button.png"/></a>
-</form>
+<body>
+    <div class="container">
+        <main class="loginMain">
+        <!--로그인섹션-->
+            <section class="login">
+               <!--로그인박스-->
+                <article class="login__form__container">
+                   <!--로그인 폼-->
+                   <div class="login__form">
+                        <h1><img src="/images/logo.jpg" alt=""></h1>
+                        
+                        <!--로그인 인풋-->
+                        <form class="login__input"  action="/auth/loginProc" method="POST">
+                            <input type="text" name="username" placeholder="유저네임" required="required" />
+                            <input type="password" name="password" placeholder="비밀번호" required="required" />
+                            <button>로그인</button>
+                                <br/>
+                          <horizen>카카오로그인</horizen>
+  <a href="https://kauth.kakao.com/oauth/authorize?client_id=57ea8b244103264c206819e7f856ddcc&redirect_uri=http://localhost:8000/auth/kakao/callback&response_type=code"><img height="38px" src="/images/kakao_login_button.png"/></a>
 
-
-
-
-  <%@include file= "../layout/footer.jsp"  %>
-
-
+                               
+                               </form>
+                        </div>
+                    
+              
+                    </div>
+                    
+                    <!--계정이 없으신가요?-->
+                    <div class="login__register">
+                        <span>계정이 없으신가요?</span>
+                        <a href="/auth/joinForm">가입하기</a>
+                    </div>
+                    <!--계정이 없으신가요?end-->
+                </article>
+            </section>
+        </main>
+        
+    </div>
 </body>
+
 </html>
