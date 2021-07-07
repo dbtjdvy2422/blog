@@ -12,6 +12,7 @@ public class ImageUploadDto {
 	
 	private MultipartFile file;
 	private String caption;
+	private String ffmpegPath;
 	
 	public Image toEntity(String postImageUrl, User user) {
 		return Image.builder()
@@ -20,4 +21,14 @@ public class ImageUploadDto {
 				.user(user)
 				.build();
 	}
+	
+	public Image toffmpegEntity(String postImageUrl,String ffmpegPath, User user) {
+		return Image.builder()
+				.caption(caption)
+				.postImageUrl(postImageUrl)
+				.ffmpegPath(ffmpegPath)
+				.user(user)
+				.build();
+	}
+	
 }

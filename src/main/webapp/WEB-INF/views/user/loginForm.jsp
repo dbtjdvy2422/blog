@@ -29,9 +29,12 @@
                             <input type="password" name="password" placeholder="비밀번호" required="required" />
                             <button>로그인</button>
                                 <br/>
+                                <div>
                           <horizen>카카오로그인</horizen>
-  <a href="https://kauth.kakao.com/oauth/authorize?client_id=57ea8b244103264c206819e7f856ddcc&redirect_uri=http://localhost:8000/auth/kakao/callback&response_type=code"><img height="38px" src="/images/kakao_login_button.png"/></a>
-
+                          <br/>
+  <a href="https://kauth.kakao.com/oauth/authorize?client_id=57ea8b244103264c206819e7f856ddcc&redirect_uri=http://localhost:8000/auth/kakao/callback&response_type=code">
+  <img height="38px" src="/images/kakao_login_button.png"/></a>
+</div>
                                
                                </form>
                         </div>
