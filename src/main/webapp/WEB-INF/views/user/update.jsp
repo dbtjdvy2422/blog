@@ -23,6 +23,16 @@
 
 			<!--프로필 수정-->
 			<form id="profileUpdate"  onsubmit="update(${principal.user.id}, event)" >
+<<<<<<< HEAD
+=======
+				<div class="content-item__02">
+					<div class="item__title">이름</div>
+					<div class="item__input">
+						<input type="text" name="name" placeholder="이름"
+							value="${principal.user.name}"  required="required"/>
+					</div>
+				</div>
+>>>>>>> branch 'master' of https://github.com/dbtjdvy2422/blog.git
 				<div class="content-item__03">
 					<div class="item__title">유저네임</div>
 					<div class="item__input">

@@ -1,7 +1,7 @@
 package com.cos.blog.controller;
 
 
-import java.io.IOException;
+
 import java.util.List;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -45,14 +45,14 @@ public class ImageController {
 	}
 	
 	@PostMapping("/image")
-	public String imageUpload(ImageUploadDto imageUploadDto, @AuthenticationPrincipal PrincipalDetail principalDetail) throws IOException{
+	public String imageUpload(ImageUploadDto imageUploadDto, @AuthenticationPrincipal PrincipalDetail principalDetail) throws Exception {
 
 		// 깍둑이
 		if(imageUploadDto.getFile().isEmpty()) {
 			throw new CustomValidationException("이미지가 첨부되지 않았습니다.", null);
 		}
 		
-		imageService.사진업로드(imageUploadDto,principalDetail);
+		imageService.사진업로드(imageUploadDto, principalDetail);
 		return "redirect:/user/"+principalDetail.getUser().getId();
 	}
 }
