@@ -31,21 +31,12 @@
                          <!--로고end-->
                          
                          <!--회원가입 인풋-->
-<<<<<<< HEAD
                         <form class="login__input"  action="/auth/joinProc" method="post">
                             <input type="text" id="username" name="username" placeholder="유저네임" required="required"  maxlength="30"/>
                             <input type="password" id="password" name="password" placeholder="패스워드" required="required" />
                             <input type="email" id="email" name="email" placeholder="이메일" required="required" />
                              <button>가입</button>
                           
-=======
-                        <form class="login__input">
-                            <input type="text" id="username" name="username" placeholder="유저네임" required="required"  maxlength="30"/>
-                            <input type="password" id="password" name="password" placeholder="패스워드" required="required" />
-                            <input type="email" id="email" name="email" placeholder="이메일" required="required" />
-                             <button id="btn_save">Submit</button>
-                              <script src="/js/user.js"></script>
->>>>>>> branch 'master' of https://github.com/dbtjdvy2422/blog.git
                         </form>
                  
                             
@@ -58,11 +49,7 @@
                     <!--계정이 있으신가요?-->
                     <div class="login__register">
                         <span>계정이 있으신가요?</span>
-<<<<<<< HEAD
                         <a href="/auth/loginForm">로그인</a>
-=======
-                        <a href="/auth/signin">로그인</a>
->>>>>>> branch 'master' of https://github.com/dbtjdvy2422/blog.git
                     </div>
                     <!--계정이 있으신가요?end-->
                     

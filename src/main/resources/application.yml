@@ -23,13 +23,9 @@ spring:
   servlet: 
     multipart:
       enabled: true
-<<<<<<< HEAD
       max-file-size: 128000MB
       max-request-size: 128000MB
         
-=======
-      max-file-size: 2MB
->>>>>>> branch 'master' of https://github.com/dbtjdvy2422/blog.git
       
   jpa:
     open-in-view: true
@@ -57,5 +53,10 @@ cos:
   
 file:
   path: C:\Users\user\upload\
+
+ffmpeg:
+  path: C:\Users\user\ffmpeg\
+  
+  
   
         

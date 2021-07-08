@@ -56,8 +56,5 @@
 			</nav>
 		</div>
 	</header>
-<<<<<<< HEAD
-=======
-	
->>>>>>> branch 'master' of https://github.com/dbtjdvy2422/blog.git
+
 	

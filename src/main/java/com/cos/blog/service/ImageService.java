@@ -6,18 +6,14 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 
-import org.apache.commons.io.FileUtils;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.cos.blog.config.auth.PrincipalDetail;
 import com.cos.blog.dto.ImageUploadDto;
@@ -35,7 +31,7 @@ import net.bramp.ffmpeg.builder.FFmpegBuilder;
 public class ImageService {
 	
 	private final ImageRepository imageRepository;
-	private static final String IMAGE_PNG_FORMAT = "png";
+	
 	
 	@Transactional(readOnly = true)
 	public List<Image> 인기사진(){
