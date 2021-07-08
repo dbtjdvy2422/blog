@@ -11,8 +11,16 @@
 
 			<c:forEach var="image" items="${images}">
 				<div class="p-img-box">
+				<c:choose>
+						  <c:when test = "${image.ffmpegPath eq null}">
 					<a href="/user/${image.user.id}"> <img src="/upload/${image.postImageUrl}" />
 					</a>
+					</c:when>
+					 <c:when test = "${image.ffmpegPath ne null}">
+					 <a href="/user/${image.user.id}"> <img src="/upload/${image.ffmpegPath}" />
+					 </a>
+					 </c:when>
+						</c:choose>
 				</div>
 			</c:forEach>
 
