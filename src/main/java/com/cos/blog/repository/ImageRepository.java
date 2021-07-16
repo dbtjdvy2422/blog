@@ -11,6 +11,10 @@ import com.cos.blog.model.Image;
 
 public interface ImageRepository extends JpaRepository<Image, Integer> {
 
+	Page<Image> findAll(Pageable pageable);
+	
+	Page<Image> findByCaptionContaining(String keyword,Pageable pageable);
+	
 	@Query(value = "SELECT * FROM image WHERE userId IN (SELECT toUserId FROM subscribe WHERE fromUserId = :principalId) ORDER BY id DESC", nativeQuery = true)
 	Page<Image> mStory(int principalId, Pageable pageable);
 	

@@ -19,6 +19,7 @@
 	<!-- Style -->
 	<link rel="stylesheet" href="/css/style.css">
 	<link rel="stylesheet" href="/css/story.css">
+	<link rel="stylesheet" href="/css/search.css">
 	<link rel="stylesheet" href="/css/popular.css">
 	<link rel="stylesheet" href="/css/profile.css">
 	<link rel="stylesheet" href="/css/upload.css">
@@ -45,6 +46,9 @@
 				<ul class="navi-list">
 					<li class="navi-item"><a href="/">
 							<i class="fas fa-home"></i>
+						</a></li>
+					<li class="navi-item"><a href="/image/story">
+							<i class="fa fa-camera-retro fa-lg"></i>
 						</a></li>
 					<li class="navi-item"><a href="/image/popular">
 							<i class="far fa-compass"></i>

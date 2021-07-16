@@ -32,6 +32,17 @@ public class ImageService {
 	
 	private final ImageRepository imageRepository;
 	
+	@Transactional(readOnly = true)
+    public Page<Image> page(Pageable pageable) {
+		return imageRepository.findAll(pageable);
+	 
+	}
+	
+	@Transactional(readOnly = true)
+    public Page<Image> search(String keyword, Pageable pageable) {
+		return imageRepository.findByCaptionContaining(keyword,pageable);
+		
+	}
 	
 	@Transactional(readOnly = true)
 	public List<Image> 인기사진(){

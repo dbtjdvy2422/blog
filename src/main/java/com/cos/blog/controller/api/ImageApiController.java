@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cos.blog.config.auth.PrincipalDetail;
@@ -27,6 +28,21 @@ public class ImageApiController {
 	private final ImageService imageService;
 	private final LikesService likesService;
 	
+	@GetMapping("/api/imageSearch")
+	public ResponseEntity<?> imageSearch(
+	@RequestParam(value="keyword") String keyword,
+	@PageableDefault(size=3) Pageable pageable){
+		
+		Page<Image> search =  imageService.page(pageable);
+		if(keyword.equals("")|| keyword.equals(null)) {
+			search =  imageService.page(pageable);
+		}
+		else {
+			search = imageService.search(keyword, pageable);
+		}
+		return new ResponseEntity<>(new CMRespDto<>(1, "성공", search), HttpStatus.OK);
+		
+	}
 	@GetMapping("/api/image")
 	public ResponseEntity<?> imageStory(@AuthenticationPrincipal PrincipalDetail principalDetail, 
 			@PageableDefault(size=3) Pageable pageable){
