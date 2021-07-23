@@ -44,16 +44,7 @@ public class UserApiController {
 	private final UserService userService;
 	private final AuthenticationManager authenticationManager;
 	
-	
-	@PostMapping("/auth/joinProc")
-	public String save(@Valid SignupDto signupDto, BindingResult bindingResult) {
-		System.out.println("UserApiController :save 호줄됨");
-		User user = signupDto.toEntity();
-		userService.회원가입(user);
-		
-		return "auth/loginForm";
-	}
-	  
+
 	/*
 	@PostMapping("/api/user/login")
 	public ResponseDto<Integer> login(@RequestBody User user,HttpSession session) {

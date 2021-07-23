@@ -24,13 +24,7 @@
 			<!--프로필 수정-->
 			<form id="profileUpdate"  onsubmit="update(${principal.user.id}, event)" >
 
-				<div class="content-item__02">
-					<div class="item__title">이름</div>
-					<div class="item__input">
-						<input type="text" name="name" placeholder="이름"
-							value="${principal.user.name}"  required="required"/>
-					</div>
-				</div>
+				
 
 				<div class="content-item__03">
 					<div class="item__title">유저네임</div>

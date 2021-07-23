@@ -5,6 +5,8 @@ package com.cos.blog.controller;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -23,13 +25,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.client.RestTemplate;
 
 import com.cos.blog.config.auth.PrincipalDetail;
 import com.cos.blog.dto.CMRespDto;
+import com.cos.blog.dto.SignupDto;
 import com.cos.blog.dto.SubscribeDto;
 import com.cos.blog.dto.UserProfileDto;
 import com.cos.blog.model.KakaoProfile;
@@ -102,6 +106,15 @@ public class UserController {
 	return "user/updateForm";
 	}
 	
+	
+	@PostMapping("/auth/joinProc")
+	public String save(@Valid SignupDto signupDto, BindingResult bindingResult) {
+		System.out.println("UserApiController :save 호줄됨");
+		User user = signupDto.toEntity();
+		userService.회원가입(user);
+		return "user/loginForm";
+	}
+	  
 	@GetMapping("/user/{id}/update")
 	public String updateForm(@PathVariable int id, @AuthenticationPrincipal PrincipalDetail principalDetail) {
 	
