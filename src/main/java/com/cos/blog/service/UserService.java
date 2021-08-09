@@ -84,7 +84,7 @@ public class UserService {
 		UserProfileDto dto = new UserProfileDto(); 
 		
 		// SELECT * FROM image WHERE userId = :userId;
-		User userEntity = userRepository.findById(pageUserId).orElseThrow(()-> {
+		User userEntity = userRepository.findById(pageUserId).<CustomException>orElseThrow(()-> {
 			throw new CustomException("해당 프로필 페이지는 없는 페이지입니다.");
 		});
 		
@@ -121,7 +121,7 @@ public class UserService {
 			e.printStackTrace();
 		}
 		
-		User userEntity = userRepository.findById(principalId).orElseThrow(()->{
+		User userEntity = userRepository.findById(principalId).<CustomException>orElseThrow(()->{
 			throw new CustomApiException("유저를 찾을 수 없습니다.");
 		});
 		userEntity.setProfileImageUrl(imageFileName);

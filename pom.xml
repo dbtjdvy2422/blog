@@ -13,12 +13,14 @@
 	<groupId>com.cos</groupId>
 	<artifactId>blog</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 	<name>blog</name>
 	<description>My First Blog Project </description>
 
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
+	
 
 
 
@@ -35,6 +37,7 @@
   <artifactId>spring-boot-starter-validation</artifactId>
 </dependency>
 
+    
 <!-- JSP 템플릿 엔진 -->
 <dependency>
   <groupId>org.apache.tomcat.embed</groupId>
@@ -62,6 +65,7 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
+		 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -109,7 +113,7 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>1.4</version>
+            <version>2.6</version>
         </dependency>
         
         <!-- qlrm -->
@@ -119,15 +123,16 @@
 			<version>2.1.1</version>
 			</dependency>
 			
-			<!-- ffmpeg 썸네일 추출-->
+			   <!-- ffmpeg 썸네일 추출-->
 		<dependency>
 		  <groupId>net.bramp.ffmpeg</groupId>
 		  <artifactId>ffmpeg</artifactId>
 		  <version>0.6.2</version>
 		</dependency>
-		
-	</dependencies>
 
+	   
+	</dependencies>
+	
 	<build>
 		<plugins>
 			<plugin>
@@ -135,22 +140,11 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 			
-			 <plugin>
-	            <groupId>com.mysema.maven</groupId>
-	            <artifactId>apt-maven-plugin</artifactId>
-	            <version>1.1.3</version>
-	            <executions>
-	                <execution>
-	                    <goals>
-	                        <goal>process</goal>
-	                    </goals>
-	                    <configuration>
-	                        <outputDirectory>target/generated-sources/java</outputDirectory>
-	                        <processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
-	                    </configuration>
-	                </execution>
-	            </executions>
-	        </plugin>
+		<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-resources-plugin</artifactId>
+			    <version>3.1.0</version>
+		</plugin>        
 	        
 		</plugins>
 	</build>

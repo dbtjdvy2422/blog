@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cos.blog.handler.CustomApiException;
+import com.cos.blog.handler.CustomException;
 import com.cos.blog.model.Comment;
 import com.cos.blog.model.Image;
 import com.cos.blog.model.User;
@@ -27,7 +28,7 @@ public class CommentService {
 		Image image = new Image();
 		image.setId(imageId);
 		
-		User userEntity = userRepository.findById(userId).orElseThrow(()->{
+		User userEntity = userRepository.findById(userId).<CustomException>orElseThrow(()->{
 			throw new CustomApiException("유저 아이디를 찾을 수 없습니다.");
 		});
 		
