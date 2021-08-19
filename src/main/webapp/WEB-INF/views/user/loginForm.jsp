@@ -32,7 +32,7 @@
                                 <div>
                           <horizen>카카오로그인</horizen>
                           <br/>
-  <a href="https://kauth.kakao.com/oauth/authorize?client_id=57ea8b244103264c206819e7f856ddcc&redirect_uri=http://3.35.230.190/auth/kakao/callback&response_type=code">
+  <a href="https://kauth.kakao.com/oauth/authorize?client_id=57ea8b244103264c206819e7f856ddcc&redirect_uri=https://blogram.site:8443/auth/kakao/callback&response_type=code">
   <img height="38px" src="/images/kakao_login_button.png"/></a>
 </div>
                                

@@ -64,10 +64,9 @@ public class UserController {
 	private final AuthenticationManager authenticationManager;
 	private final SubscribeService subscribeService;
 	
-	@GetMapping("/board")
-	public String main(Model model, @PageableDefault(size=1, sort="id",direction =Sort.Direction.DESC) Pageable pageable) {
-	model.addAttribute("boards",boardService.글목록(pageable));
-	return "board";
+	@GetMapping({"/", "/image/imageSearch"})
+	public String Allsearch() {
+		return "/image/imageSearch";
 	}
 	
 	@GetMapping("/user/{pageUserId}")
@@ -146,7 +145,7 @@ public class UserController {
 		MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
 		params.add("grant_type","authorization_code");
 		params.add("client_id","57ea8b244103264c206819e7f856ddcc");
-		params.add("redirect_uri","http://3.35.230.190/auth/kakao/callback");
+		params.add("redirect_uri","https://blogram.site:8443/auth/kakao/callback");
 		params.add("code",code);
 		
 		//httpHeader와 HttpBody를 하나의 오브젝트에 담기

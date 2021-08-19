@@ -23,11 +23,6 @@ import lombok.RequiredArgsConstructor;
 public class ImageController {
 	
 	private final ImageService imageService;
-
-	@GetMapping({"/", "/image/imageSearch"})
-	public String Allsearch() {
-		return "/image/imageSearch";
-	}
 	
 	@GetMapping("/image/story")
 	public String story() {
