@@ -91,7 +91,7 @@ spring:
       fail-on-empty-beans: false
       
 server:
-  port: 8443 # 포트번호 치환(서비스 용)
+  port: 8081 # 포트번호 치환(서비스 용)
   ssl:
     enable: true
     key-store: classpath:letsencrypt.jks
@@ -114,6 +114,12 @@ cos:
   
 file:
   path: upload-file/
+  
+ffmpeg:
+  path: classpath:ffmpeg/bin/ffmpeg.exe
+
+ffprobe:
+  path: classpath:ffmpeg/bin/ffprobe.exe
   
   
         

@@ -1,4 +1,7 @@
 FROM openjdk:8-jdk-alpine
-ARG JAR_FILE=target/*.war
-COPY ${JAR_FILE} app.war
-ENTRYPOINT ["java","-jar","/app.war"]
+
+RUN mkdir upload-file
+RUN mkdir jks-file
+COPY ./target/*.war /app.war
+
+CMD ["java","-jar","/app.war"]

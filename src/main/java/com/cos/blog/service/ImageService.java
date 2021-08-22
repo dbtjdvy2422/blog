@@ -77,14 +77,18 @@ public class ImageService {
 	@Value("${file.path}")
 	private String uploadFolder;
 	
+	@Value("${ffmpeg.path}")
+	private String ffmpegFolder;
 	
+	@Value("${ffprobe.path}")
+	private String ffprobeFolder;
 	
 	@Transactional
 	public void 사진업로드(ImageUploadDto imageUploadDto, PrincipalDetail principalDetail) throws IOException {
 		UUID uuid = UUID.randomUUID(); // uuid
 		
-		FFmpeg ffmpeg = new FFmpeg("/usr/bin/ffmpeg");		// ffmpeg.exe 파일 경로
-		FFprobe ffprobe = new FFprobe("/usr/bin/ffprobe");	// ffprobe.exe 파일 경로
+		FFmpeg ffmpeg = new FFmpeg(ffmpegFolder);		// ffmpeg.exe 파일 경로
+		FFprobe ffprobe = new FFprobe(ffprobeFolder);	// ffprobe.exe 파일 경로
 		
 		
 		String imageFileName = uuid+"_"+imageUploadDto.getFile().getOriginalFilename(); // 1.jpg
