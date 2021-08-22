@@ -92,16 +92,7 @@ spring:
       
 server:
   port: 8081 # 포트번호 치환(서비스 용)
-  ssl:
-    enable: true
-    key-store: classpath:letsencrypt.jks
-    key-store-password: tnvthr
-    key-password: tnvthr
-    
-security:
-  require:
-    ssl: true
-  
+
   
 http:
   encoding:
