@@ -43,9 +43,7 @@ public class UserService {
 	
 	@Transactional(readOnly = true)
 	public User 회원찾기(String username) {
-		User user = userRepository.findByUsername(username).orElseGet(()->{
-			return new User();
-		});
+		User user = userRepository.findByUsername(username);
 			return user;
 		
 	}
@@ -55,7 +53,7 @@ public class UserService {
 		String rawPassword = user.getPassword(); // 1234원문
 		String encPassword = encoder.encode(rawPassword); //해쉬가 됨
 		user.setPassword(encPassword);
-		user.setRole(RoleType.USER);// 관리자 ROLE_ADMIN
+		user.setRole("ROLE_USER");// 관리자 ROLE_ADMIN
 		User userEntity = null;
 		userEntity = userRepository.save(user);
 		return userEntity;

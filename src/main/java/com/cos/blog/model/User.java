@@ -57,8 +57,8 @@ public class User {
 	private String profileImageUrl; // 사진
 	//@ColunmDefalut("'user'")
 		//DB는 RoleType이라는게 업다. 그래서 @Enumerated(EnumType.STRING)으로 스트링값이라는걸 알려준다.
-		@Enumerated(EnumType.STRING)
-		private RoleType role; //enum을 쓰는게 좋다.//admin, user( enum을 쓰면 설정헤준  두 가지만 넣을 수 있다) 
+		
+	private String role; 
 		
 	private String oauth; //kakao 로그인 하는 사람 
 	 // 나는 연관관계의 주인이 아니다. 그러므로 테이블에 칼럼을 만들지마.

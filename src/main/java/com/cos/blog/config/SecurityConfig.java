@@ -11,14 +11,19 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.cos.blog.config.auth.OAuth2DetailsService;
 import com.cos.blog.config.auth.PrincipalDetailService;
 
-//빈 등록:스프링 컨테이너에서 객체를 관리할 수 있게 하는 것
+import lombok.RequiredArgsConstructor;
 
+//빈 등록:스프링 컨테이너에서 객체를 관리할 수 있게 하는 것
+@RequiredArgsConstructor
 @Configuration //빈등록(Ioc관리)
 @EnableWebSecurity //시큐리티 필터 등록 = 스프링 시큐리티가 활성화가 되어있는데 어떤 설정을 해당 파일에서 하겠다
 @EnableGlobalMethodSecurity(prePostEnabled = true)//특정주소로 접근을 하면 권한 및 인증을 미리 체크하겠다는 뜻
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
+	
+	private final OAuth2DetailsService oAuth2DetailsService;
 	
 	@Autowired
 	private PrincipalDetailService principalDetailService;
@@ -56,8 +61,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.formLogin()
 			.loginPage("/auth/loginForm") // GET
 			.defaultSuccessUrl("/") // 로그인이 끝나면 해당 주소로 간다.
-			.loginProcessingUrl("/auth/loginProc"); // 스프링 시큐리틱 해당주소로 요청하는 로그인을 가로채서 대신 로그인해줌
-			
+			.loginProcessingUrl("/auth/loginProc")// 스프링 시큐리틱 해당주소로 요청하는 로그인을 가로채서 대신 로그인해줌
+			.and()
+			.oauth2Login() // form로그인도 하는데, oauth2로그인도 할꺼야!!
+			.userInfoEndpoint() // oauth2로그인을 하면 최종응답을 회원정보를 바로 받을 수 있다.
+			.userService(oAuth2DetailsService);
 	}
 	
 

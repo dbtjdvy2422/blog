@@ -30,10 +30,23 @@
                             <button>로그인</button>
                                 <br/>
                                 <div>
-                          <horizen>카카오로그인</horizen>
+                           <!-- 또는 -->
+                        <div class="login__horizon">
+                            <div class="br"></div>
+                            <div class="or">또는</div>
+                            <div class="br"></div>
+                        </div>
+                        <!-- 또는end -->
                           <br/>
   <a href="https://kauth.kakao.com/oauth/authorize?client_id=57ea8b244103264c206819e7f856ddcc&redirect_uri=https://blogram.site/auth/kakao/callback&response_type=code">
   <img height="38px" src="/images/kakao_login_button.png"/></a>
+  
+  <div class="login__facebook">
+                            <button onclick="javascript:location.href='/oauth2/authorization/facebook'">
+                                <i class="fab fa-facebook-square"></i>
+                                <span>Facebook으로 로그인</span>
+                            </button>
+                        </div>
 </div>
                                
                                </form>

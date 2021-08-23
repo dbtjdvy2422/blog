@@ -9,13 +9,23 @@ server:
       
 spring:
   profiles:
-    active: production #기본적으로 local/production이 선택된다는 뜻
+    active: local #기본적으로 local/production이 선택된다는 뜻
   mvc:
     view:
       prefix: /WEB-INF/views/
       suffix: .jsp
 
-
+  security:
+    oauth2:
+      client:
+        registration:
+         facebook:
+            client-id: 386367612878935
+            client-secret: 82f42abccd505464b7042fc94e8b5edc 
+            scope:
+            - public_profile
+            - email
+            
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/blog?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
@@ -88,12 +98,21 @@ spring:
 
   jackson:
     serialization:
-      fail-on-empty-beans: false
+      fail-on-empty-beans: false  
       
 server:
   port: 8081 # 포트번호 치환(서비스 용)
-
+  ssl:
+    enable: true
+    key-store: classpath:letsencrypt.jks
+    key-store-password: tnvthr
+    key-password: tnvthr
+    
+security:
+  require:
+    ssl: true
   
+
 http:
   encoding:
    charset: UTF-8
@@ -105,12 +124,6 @@ cos:
   
 file:
   path: upload-file/
-  
-ffmpeg:
-  path: classpath:ffmpeg/bin/ffmpeg.exe
-
-ffprobe:
-  path: classpath:ffmpeg/bin/ffprobe.exe
   
   
         
