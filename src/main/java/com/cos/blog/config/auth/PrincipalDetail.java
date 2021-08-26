@@ -92,6 +92,6 @@ public class PrincipalDetail implements UserDetails, OAuth2User{
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
-		return null;
+		return (String) attributes.get("name");
 	}
 }

@@ -42,10 +42,10 @@
   <img height="38px" src="/images/kakao_login_button.png"/></a>
   
   <div class="login__facebook">
-                            <button onclick="javascript:location.href='/oauth2/authorization/facebook'">
+                           <a href="/oauth2/authorization/facebook">
                                 <i class="fab fa-facebook-square"></i>
                                 <span>Facebook으로 로그인</span>
-                            </button>
+                            </a>
                         </div>
 </div>
                                

@@ -9,7 +9,7 @@ server:
       
 spring:
   profiles:
-    active: local #기본적으로 local/production이 선택된다는 뜻
+    active: production #기본적으로 local/production이 선택된다는 뜻
   mvc:
     view:
       prefix: /WEB-INF/views/
@@ -19,9 +19,9 @@ spring:
     oauth2:
       client:
         registration:
-         facebook:
+          facebook:
             client-id: 386367612878935
-            client-secret: 82f42abccd505464b7042fc94e8b5edc 
+            client-secret: 82f42abccd505464b7042fc94e8b5edc
             scope:
             - public_profile
             - email
@@ -98,7 +98,19 @@ spring:
 
   jackson:
     serialization:
-      fail-on-empty-beans: false  
+      fail-on-empty-beans: false
+  security:
+    oauth2:
+      client:
+        registration:
+          facebook:
+            client-id: 386367612878935
+            client-secret: 82f42abccd505464b7042fc94e8b5edc
+            scope:
+            - public_profile
+            - email
+          
+  
       
 server:
   port: 8081 # 포트번호 치환(서비스 용)
@@ -111,7 +123,7 @@ server:
 security:
   require:
     ssl: true
-  
+
 
 http:
   encoding:

@@ -5,6 +5,7 @@ package com.cos.blog.service;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -43,7 +44,9 @@ public class UserService {
 	
 	@Transactional(readOnly = true)
 	public User 회원찾기(String username) {
-		User user = userRepository.findByUsername(username);
+		User user = userRepository.findByUsername(username).orElseGet(()->{
+			return new User();
+		});
 			return user;
 		
 	}

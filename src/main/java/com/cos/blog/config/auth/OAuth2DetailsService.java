@@ -1,7 +1,6 @@
 package com.cos.blog.config.auth;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,7 +11,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import com.cos.blog.model.User;
-import com.cos.blog.repository.UserRepository;
+import com.cos.blog.repository.UsersRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class OAuth2DetailsService extends DefaultOAuth2UserService{
 
-	private final UserRepository userRepository;
+	private final UsersRepository usersRepository;
 	
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -33,9 +32,8 @@ public class OAuth2DetailsService extends DefaultOAuth2UserService{
 		String username = "facebook_"+(String) userInfo.get("id");
 		String password = new BCryptPasswordEncoder().encode(UUID.randomUUID().toString());
 		String email = (String) userInfo.get("email");
-		String name = (String) userInfo.get("name");
 		
-		User userEntity  = userRepository.findByUsername(username);
+		User userEntity  = usersRepository.findByUsername(username);
 		
 		if(userEntity == null) { // 페이스북 최초 로그인
 			User user = User.builder()
@@ -45,7 +43,7 @@ public class OAuth2DetailsService extends DefaultOAuth2UserService{
 					.role("ROLE_USER")
 					.build();
 			
-			return new PrincipalDetail(userRepository.save(user), oauth2User.getAttributes());
+			return new PrincipalDetail(usersRepository.save(user), oauth2User.getAttributes());
 		}else { // 페이스북으로 이미 회원가입이 되어 있다는 뜻
 			return new PrincipalDetail(userEntity, oauth2User.getAttributes());
 		}

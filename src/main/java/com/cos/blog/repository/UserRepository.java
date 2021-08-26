@@ -14,8 +14,7 @@ import com.cos.blog.model.User;
 public interface UserRepository extends JpaRepository<User, Integer> {
 
 	//select * from user WHERE username=1?;
-	User findByUsername(String username);
-	
+	Optional<User> findByUsername(String username);
 	
 	
 	
