@@ -35,7 +35,6 @@ public class PrincipalDetail implements UserDetails, OAuth2User{
 		this.user = user;
 	}
 
-
 	@Override
 	public String getPassword() {
 		// TODO Auto-generated method stub
