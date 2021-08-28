@@ -82,8 +82,8 @@ public class ImageService {
 	public void 사진업로드(ImageUploadDto imageUploadDto, PrincipalDetail principalDetail) throws IOException {
 		UUID uuid = UUID.randomUUID(); // uuid
 		
-		FFmpeg ffmpeg = new FFmpeg("/usr/bin/ffmpeg");		// ffmpeg.exe 파일 경로
-		FFprobe ffprobe = new FFprobe("/usr/bin/ffprobe");	// ffprobe.exe 파일 경로
+		FFmpeg ffmpeg = new FFmpeg("/ffmpeg/ffmpeg");		// ffmpeg.exe 파일 경로
+		FFprobe ffprobe = new FFprobe("/ffmpeg/ffprobe");	// ffprobe.exe 파일 경로
 		
 		
 		String imageFileName = uuid+"_"+imageUploadDto.getFile().getOriginalFilename(); // 1.jpg
