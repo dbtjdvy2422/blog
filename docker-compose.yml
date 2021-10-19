@@ -1,0 +1,82 @@
+version: "3.0"
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_USER: cos
+      MYSQL_PASSWORD: cos1234
+      MYSQL_DATABASE: blog
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --lower_case_table_names=1
+    volumes:
+      - ./mysqldata:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    container_name: blog_mysql
+
+  spring-boot:
+    build: .
+    volumes:
+      - ./secure/blogram.site:/jks-file
+    expose:
+      - 8081      
+    restart: always
+    container_name: spring-boot
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/blog?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+      - SPRING_DATASOURCE_USERNAME=cos
+      - SPRING_DATASOURCE_PASSWORD=cos1234
+      - SPRING_DATASOURCE_PLATFORM=org.hibernate.dialect.MySQL57Dialect
+   
+    links:
+      - db
+    depends_on:
+      - db
+       
+
+  webserver:
+    image: nginx
+    container_name: proxy 
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./myweb:/usr/share/nginx/html
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./certbot-etc:/etc/letsencrypt
+      - ./log/proxy:/var/log/nginx 
+    depends_on:
+      - spring-boot
+
+  certbot:
+    depends_on:
+      - webserver
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./certbot-etc:/etc/letsencrypt
+      - ./myweb:/usr/share/nginx/html
+    command: certonly --webroot --webroot-path=/usr/share/nginx/html --email dbtjdvy2422@gmail.com --agree-tos --no-eff-email --keep-until-expiring -d blogram.site -d www.blogram.site
+
+  jenkins:
+    container_name: jenkins
+    build: ./compose
+    user: root
+    ports:
+      - 8080:8080
+      - 50000:50000
+    volumes:
+      - /home/ubuntu/compose/.ssh:/root/.ssh       
+    links:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/blog?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+      - SPRING_DATASOURCE_USERNAME=cos
+      - SPRING_DATASOURCE_PASSWORD=cos1234
+      - SPRING_DATASOURCE_PLATFORM=org.hibernate.dialect.MySQL57Dialect
+      - JVM_OPTS=-Xmx12g -Xms12g -XX:MaxPermSize=1024m
+ 
