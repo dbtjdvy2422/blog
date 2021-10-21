@@ -95,14 +95,7 @@ springboot에서의 yml설정과 nginx.conf설정만 해주면 ssl이 적용되�
 Jenkins로 깃허브와 연동하여 webhook으로 sts에서 깃허브로 커밋을 하면 젠킨스와 연결된 ssh로 빌드된 War파일을 전송할 수 있게 하였습니다.  
 Dokcerfile과 docker-compse.yml파일에서 jenkins환경설정을 해주고 jenknins를 들어가 아래와 같이 내부설정을 해주었습니다.  
 
- 1.SSH 서버설정  
-![image](https://user-images.githubusercontent.com/62457271/138328482-1214bd25-fc9a-49ed-bb5e-5fdb8eeb4c97.png)  
- 2.git hub연결  
-![image](https://user-images.githubusercontent.com/62457271/138328507-20821a49-6cfe-4084-a102-044d739d8e25.png)  
- 3.SSH Build설정  
-![image](https://user-images.githubusercontent.com/62457271/138328514-d1c96fcf-346d-43b2-a5dc-2cd6ebc95e72.png)  
- 4.console 결과
-![image](https://user-images.githubusercontent.com/62457271/138328520-c205bd2c-c2da-4ff2-9090-85bca8aff1a8.png)
+![image](https://user-images.githubusercontent.com/62457271/138330368-aab03ff9-2db4-4d6f-916a-e32715e60890.png)
 
 
  
