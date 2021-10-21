@@ -20,121 +20,89 @@ lets encrypt ssl인증서로 사이트를 https로 적용했습니다.
 Jenkins로 깃허브와 연동하여 webhook으로 sts에서 깃허브로 커밋을 하면 젠킨스와 연결된 ssh로 빌드된 War파일을 전송할 수 있게 합니다.
 
 ## Docker, Docker-compose 설치
-1.최신 패키지 리스트 업데이트
+
+1.최신 패키지 리스트 업데이트  
 sudo apt update
 
-2.도커 다운로드를 위해 필요한 https 관련 패키지 설치
+2.도커 다운로드를 위해 필요한 https 관련 패키지 설치  
 sudo apt install apt-transport-https ca-certificates curl software-properties-common
 
-3.도커 레포지토리 접근을 위한 gpg key설정
+3.도커 레포지토리 접근을 위한 gpg key설정  
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
-4.도커 레포지토리 등록
+4.도커 레포지토리 등록  
 sudo add-apt-repository "deb [arch=amd64] http://download.docker.com/linux/ubuntu focal stable"
 
-5.등록한 도커 레포지토리 까지 포함 최신 패키지 리스트 업데이트
+5.등록한 도커 레포지토리 까지 포함 최신 패키지 리스트 업데이트  
 sudo apt update 
 
-6.도커 설치
+6.도커 설치  
 sudo apt install docker-ce
 
-7.도커 실행중임을 확인
+7.도커 실행중임을 확인  
 sudo systemctl status docker 
 
-sudo 명령 없이 도커 명령어 사용하기 설정
-1.현 사용자(ubuntu) id를 도커 그룹에 포함
+sudo 명령 없이 도커 명령어 사용하기 설정  
+1.현 사용자(ubuntu) id를 도커 그룹에 포함  
 sudo usermod -aG docker ${USER}
 
 2.터미널 끊고 다시 SSH로 터미널 접속)로그인 다시 하는것)
 
-3.현 ID가 도커 그룹에 속해있는지 확인하는 명령어
+3.현 ID가 도커 그룹에 속해있는지 확인하는 명령어  
 id -nG
 
-.도커 컴포즈 설치
+도커 컴포즈 설치  
 sudo curl -L "https://github.com/docker/compose/releases/download/1.28.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
-실행 권한 주기
+실행 권한 주기  
 sudo chmod +x /usr/local/bin/docker-compose
 
-다음 명령 실행시 버전확인이 가능하면 성공
+다음 명령 실행시 버전확인이 가능하면 성공  
 docker-compose --version
 
-## Dockerfile을 생성
-이름은 정확히 Dockerfile로 명시해야합니다.
+## Dockerfile, docker-compose.yml파일을 생성
+이름은 정확히 Dockerfile로 명시해야합니다.  
+우분투환경과 젠킨스환경의 2개의 도커파일을 만들었습니다.
+첫번째 도커파일에서 ffmpeg설치를 위해 우분투 환경으로 설정했습니다.  
+Docker-compose.yml파일을 작성합니다.  
+저는 database, webserver, nginx, certbot, Jenkins로 정의된 5가지 컨테이너를 생성하였습니다.  
+Dockerfile과 docker-compose.yml 파일은 커밋하여 올려놨습니다. 
+
+## letsencrypt 인증서 발급 및 적용
+아래는 cerbot에서 ssl인증서를 발급받기위해 docker-compose.yml파일 에서의 cerbot컨테이너 설정입니다.  
 ```powershell
-FROM ubuntu:20.04
-
-RUN apt-get update 
-RUN apt-get install -y openjdk-8-jdk-headless 
-RUN apt-get install -y openjdk-8-jre-headless 
-RUN apt-get -y upgradeRUN apt install ffmpeg -y --fix-missing
-RUN mkdir upload-fileRUN mkdir jks-file
-COPY ./myweb/*.war app.war
-CMD ["java","-jar","/app.war"]
-```
-
-아래는 젠킨스 도커파일입니다.
-```powershell
-FROM jenkins/jenkins:lts
-
-USER root
-RUN apt-get update
-RUN apt-get upgrade -y
-RUN apt-get install -y openssh-client
-```
-
-
-Docker-compose.yml파일을 작성합니다.
-저는 database,springboot,nginx,certbot,Jenkins 로 정의된 5가지 컨테이너를 생성하였습니다.
-
-mysql설정
-```powershell
-version: "3.0“
-services:
-  db:
-    image:
-    mysql:5.7
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes“
-      MYSQL_USER: cos
-      MYSQL_PASSWORD: cos1234
-      MYSQL_DATABASE: blog
-    command:
-      - --character-set-server=utf8mb4
-      - --collation-server=utf8mb4_unicode_ci
-      - --lower_case_table_names=1
+certbot:
+    depends_on:
+      - webserver
+    image: certbot/certbot
+    container_name: certbot
     volumes:
-      - ./mysqldata:/var/lib/mysql
-    ports:
-      - "3306:3306“
-    container_name: blog_mysql
-```
-
-springboot설정
+      - ./certbot-etc:/etc/letsencrypt
+      - ./myweb:/usr/share/nginx/html
+    command: certonly --webroot --webroot-path=/usr/share/nginx/html --email dbtjdvy2422@gmail.com --agree-tos --no-eff-email --keep-until-expiring -d blogram.site -d www.blogram.site
+```  
+발급받은 인증서의 pem파일을 jks파일로 변경해준 뒤 적용해줍니다.
 ```powershell
-spring-boot:
-  build: .
-  volumes:
-    - ./secure/blogram.site:/jks-file
-  expose:
-    - 8081
-  restart: always
-  container_name: spring-boot
-  environment:
-    - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/blog?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    - SPRING_DATASOURCE_USERNAME=cos
-    - SPRING_DATASOURCE_PASSWORD=cos1234
-    - SPRING_DATASOURCE_PLATFORM=org.hibernate.dialect.MySQL57Dialect
+openssl pkcs12 -export -in fullchain.pem -inkey privkey.pem -out cert_and_key.p12 -name ttp -CAfile chain.pem -caname root
 
-  links:
-    - db
-  depends_on:
-    - db
+keytool -importkeystore -deststorepass (설정할 비밀번호) -destkeypass (설정할 비밀번호) -destkeystore letsencrypt.jks -srckeystore cert_and_key.p12 -srcstoretype PKCS12 -srcstorepass (비밀번호)
+
+keytool -import -trustcacerts -alias root -file chain.pem -keystore letsencrypt.jks
 ```
+springboot에서의 yml설정과 nginx.conf설정만 해주면 ssl이 적용되고 https를 사용할 수 있습니다.  
 
+## Jenkins webhook을 사용해 깃허브와 ssh를 연동하여 war파일 전송
+Jenkins로 깃허브와 연동하여 webhook으로 sts에서 깃허브로 커밋을 하면 젠킨스와 연결된 ssh로 빌드된 War파일을 전송할 수 있게 하였습니다.  
+Dokcerfile과 docker-compse.yml파일에서 jenkins환경설정을 해주고 jenknins를 들어가 아래와 같이 내부설정을 해주었습니다.  
 
-
- 
+ 1.SSH 서버설정  
+![image](https://user-images.githubusercontent.com/62457271/138328482-1214bd25-fc9a-49ed-bb5e-5fdb8eeb4c97.png)  
+ 2.git hub연결  
+![image](https://user-images.githubusercontent.com/62457271/138328507-20821a49-6cfe-4084-a102-044d739d8e25.png)  
+ 3.SSH Build설정  
+![image](https://user-images.githubusercontent.com/62457271/138328514-d1c96fcf-346d-43b2-a5dc-2cd6ebc95e72.png)  
+ 4.console 결과
+![image](https://user-images.githubusercontent.com/62457271/138328520-c205bd2c-c2da-4ff2-9090-85bca8aff1a8.png)
 
 
  
